@@ -2748,15 +2748,24 @@ namespace Graduation.Controllers
                 }
                 GraduationDBContent db1 = new GraduationDBContent();
                 UploadModel model = new UploadModel();
+                ESchoolInfoModel eschool = new ESchoolInfoModel();
+                ESchoolInfoModel eschool1=new ESchoolInfoModel ();
+                FillBaseInfoModel baseInfo = new FillBaseInfoModel();
                 UploadModel student=new UploadModel ();
-                string isNull="";
+                FillBaseInfoModel baseInfo1=new FillBaseInfoModel ();
+                string isNull="";//上传信息表中有没有
+                string isNull1 = "";//基本信息表中有没有
+                string isNull2 = "";//就业信息表中有没有
                 for (int i = 0; i < header.ItemArray.Length; i++)
                 {
                     string number="";
                     if(header.ItemArray[i].ToString()=="xh")
                     {
                         number = dr.ItemArray[i].ToString();
-                        student = db1.UploadTb.Where(m => m.StudentNumber == number).SingleOrDefault();
+                        student = db1.UploadTb.Find(number);
+                        baseInfo1 = db1.BaseInfoTb.Find(number);
+                        eschool1 = db1.ESchoolInfoTb.Find(number);
+                        #region 判断是否在表中已经存在
                         if (student == null)
                         {
                             model = new UploadModel();
@@ -2767,6 +2776,27 @@ namespace Graduation.Controllers
                             model = student;
                             isNull = "NotNull";
                         }
+                        if (baseInfo1 == null)
+                        {
+                            baseInfo = new FillBaseInfoModel();
+                            isNull1 = "null";
+                        }
+                        else
+                        {
+                            baseInfo = baseInfo1;
+                            isNull1 = "NotNull";
+                        }
+                        if (eschool1 == null)
+                        {
+                            eschool = new ESchoolInfoModel();
+                            isNull2 = "null";
+                        }
+                        else
+                        {
+                            eschool = eschool1;
+                            isNull2 = "NotNull";
+                        }
+                        #endregion 
                     }
 
                 }
@@ -2796,6 +2826,8 @@ namespace Graduation.Controllers
                             break;
                         case "xh"://学号
                             model.StudentNumber = data;
+                            eschool.StudentNumber = data;
+                            baseInfo.StudentNumber = data;
                             break;
                         case "xm"://姓名
                             model.Name = data;
@@ -2827,13 +2859,14 @@ namespace Graduation.Controllers
                             model.MajorDirection = data;
                             break;
                         case "sfzyxw"://是否专业学位
-
+                            model.Sfzyxw = data;
                             break;
-                        case "syszdgkkq"://生源地所在地（高考生源地）
+                        case "syszdgkkq"://生源地所在地（高考生源地）只有省份
+                            baseInfo.OriginProvince = data;//在基本信息表中
                             break;
                         case "xl"://学历
                             model.Education = data;
-                            if (data == "本科生")
+                            if (data == "本科生"||data=="本科")
                             {
                                 model.StudentType = "0";
                                 model.EducationCode = "31";
@@ -2871,6 +2904,7 @@ namespace Graduation.Controllers
                             model.GraduationTime = data;
                             break;
                         case "xysbh"://协议书编号
+                            eschool.AgreementID = data;
                             break;
                     }
                     #endregion
@@ -2881,16 +2915,47 @@ namespace Graduation.Controllers
                 model.SchoolBeCode = "360";
                 model.SchoolAddCode = "130600";
                 model.SFstudentCode = "2";
-                if (isNull == "null")//为空则为添加
-                {
-                    db1.UploadTb.Add(model);
-                    db1.SaveChanges();
-                }
-                else
-                {
-                    db1.Entry(student).CurrentValues.SetValues(student);
-                    db1.SaveChanges();
-                }
+
+                #region 用于判断为更新还是为上传，上传的是哪个表
+                    if (isNull == "null")//为空则为添加,修改的为上传表
+                    {
+                        db1.UploadTb.Add(model);
+                        db1.SaveChanges();
+                    }
+                    else
+                    {
+                        db1.Entry(student).CurrentValues.SetValues(model);
+                        db1.SaveChanges();
+                    }
+
+                    if (baseInfo.OriginProvince != null)
+                    {
+                        if (isNull1 == "null")//为空则为添加,修改的为基本信息表
+                        {
+                            db1.BaseInfoTb.Add(baseInfo);
+                            db1.SaveChanges();
+                        }
+                        else
+                        {
+                            db1.Entry(baseInfo1).CurrentValues.SetValues(baseInfo);
+                            db1.SaveChanges();
+                        }
+                    }
+                    if (eschool.AgreementID != null)
+                    {
+                        if (isNull2 == "null")//为空则为添加,修改的为就业信息表
+                        {
+                            db1.ESchoolInfoTb.Add(eschool);
+                            db1.SaveChanges();
+                        }
+                        else
+                        {
+                            db1.Entry(eschool1).CurrentValues.SetValues(eschool);
+                            db1.SaveChanges();
+                        }
+                    }
+                #endregion 
+
                 #endregion
             }
             #endregion

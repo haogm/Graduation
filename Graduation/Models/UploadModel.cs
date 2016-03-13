@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -184,7 +185,10 @@ namespace Graduation.Models
         /// </summary>
         public string GraduationTime { get; set; }
 
-
+        /// <summary>
+        /// 是否专业学位
+        /// </summary>
+        public string Sfzyxw { get; set; }
         /// <summary>
         /// 连接就业信息表
         /// </summary>

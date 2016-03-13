@@ -1099,11 +1099,6 @@ namespace Graduation.Controllers
 
         #endregion
 
-
-
-
-
-
         #region 暂未就业
 
         /// <summary>
@@ -1142,10 +1137,6 @@ namespace Graduation.Controllers
                 return RedirectToAction("Login", "StudentLogin");
             }
         }
-
-
-
-
 
 
         /// <summary>

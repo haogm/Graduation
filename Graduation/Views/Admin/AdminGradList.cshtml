@@ -308,6 +308,9 @@
                     <div class="right marginbottom col-sm-5">
                         <button type="submit" value="查询" name="action"  class="btn btn-primary">查询</button>
                     </div>
+                    <div class="right marginbottom col-sm-5">
+                        <button type="button" class="btn btn-primary"  onclick="javascript: window.location = '/Admin/AddGradInfo'" >添加毕业生信息</button>
+                    </div>
                 }
                 @Html.ActionLink("下载excel表格", "AdminGradList", new { type=3})
                 <div class="panel panel-default table-responsive clear">

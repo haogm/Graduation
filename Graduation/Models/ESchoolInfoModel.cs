@@ -10,10 +10,11 @@ namespace Graduation.Models
     public class ESchoolInfoModel
     {
 
+        
         /// <summary>
         /// 学号（唯一标识）
         /// </summary>
-        [Key,ForeignKey("uploadModel")]
+        [Key, ForeignKey("uploadModel")]    
         public string StudentNumber { get; set; }
 
         /// <summary>

@@ -10,6 +10,7 @@ using Graduation.Models;
 namespace Graduation.Controllers
 {
     public class FillBaseInfoController : Controller
+        /// jukjkjl
     {
         private GraduationDBContent db = new GraduationDBContent();
 

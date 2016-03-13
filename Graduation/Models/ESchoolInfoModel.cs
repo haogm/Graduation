@@ -14,7 +14,7 @@ namespace Graduation.Models
         /// <summary>
         /// 学号（唯一标识）
         /// </summary>
-        [Key, ForeignKey("uploadModel")]    
+        [Key, ForeignKey("uploadModel")]
         public string StudentNumber { get; set; }
 
         /// <summary>
@@ -195,12 +195,12 @@ namespace Graduation.Models
         /// <summary>
         /// 学生编辑时间
         /// </summary>
-        public DateTime StudentEditTime { get; set; }
+        public DateTime? StudentEditTime { get; set; }
 
         /// <summary>
         /// 老师编辑时间
         /// </summary>
-        public DateTime TeacherEditTime { get; set; }
+        public DateTime? TeacherEditTime { get; set; }
 
         /// <summary>
         /// 是否通过审核

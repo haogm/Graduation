@@ -13,7 +13,7 @@ namespace Graduation.Models
         /// <summary>
         /// 学号(主键)
         /// </summary>
-        [Key,ForeignKey("uploadModel")]
+        [Key, ForeignKey("uploadModel")]
         public string StudentNumber { get; set; }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Graduation.Models
         /// <summary>
         /// 审核的时间
         /// </summary>
-        public DateTime CheckTime { get; set; }
+        public DateTime? CheckTime { get; set; }
 
 
         /// <summary>

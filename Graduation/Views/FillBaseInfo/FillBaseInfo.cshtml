@@ -155,6 +155,16 @@
                                 </td>
                                 <td></td>
                             </tr>
+
+
+                            <tr>
+                                
+                                <td><span>研究生导师：</span>@Html.TextBoxFor(model => model.baseInfo.Tutor)</td>
+                                <td><span>是否专业学位：</span>@Html.RadioButtonFor(model=>model.baseInfo.IsMajorDegrees,"是")是
+                                @Html.RadioButtonFor(model=>model.baseInfo.IsMajorDegrees,"否")否</td>
+                            </tr>
+
+
                             <tr>
                                 <td>
                                     <span>婚否：</span>

@@ -870,12 +870,13 @@ namespace Graduation.Controllers
                 }
 
                 ViewBag.major = majorList;
+                #endregion
 
                 #region 下载表格
                 if (type == 3)
                 {
                     AdminGradViewModel s1 = (AdminGradViewModel)Session["table"];
-                    string[] excelHead = { "学号", "姓名", "性别", "性别代码", "民族", "民族代码", "出生日期", "身份证号", "原考生号", "考生号", "师范生类别代码", "学籍变动代码", "院校名称", "院校代码", "院校隶属部门代码", "院校所在地代码", "学院", "系", "班级", "教学班", "专业名称", "专业代码", "专业方向", "政治面貌", "政治面貌代码", "健康状况", "是否曾转专业", "转系前专业", "校区", "宿舍楼号", "宿舍号", "宿舍电话", "班主任", "生源所在地省", "生源所在地级市", "生源所在地级市的区或县级市或县", "生源所在地", "生源所在地代码", "基本信息是否审核", "基本信息状态", "就业信息是否审核", "就业信息状态", "家庭户口所在地", "家庭户口所在地代码", "家庭户口类型", "独生子女标志", "困难生类别代码", "家庭困难级别", "档案是否转入学校", "入学前户口所在地派出所", "父亲姓名", "母亲姓名", "父亲工作单位", "母亲工作单位", "家庭详细通信住址", "家庭所在地邮编", "家庭电话", "个人手机", "QQ号码", "Email", "学历", "学历代码", "学制", "培养方式", "培养方式代码", "定向或委培单位", "入学年份", "入学时间", "毕业年份", "毕业时间", "在校任职情况代码", "综合排名","排名方式","外语语种","英语通过级别","四级成绩","六级成绩","计算机级别","获奖1","获奖2","获奖3","在校期间其他荣誉及奖励","求职备注","毕业去向","协议书编号","单位名称","单位所属集团或系统","单位组织机构代码","单位上级隶属部门","单位行业","工作职务","开具单位名称","单位性质","联系人","联系人邮编","联系人通信地址","联系人职务","联系人电话","户口迁移地址","档案转寄详细地址","邮政编码","是否专业对口","升学院校","升学专业","出国国家" };
+                    string[] excelHead = { "学号", "姓名", "性别", "性别代码", "民族", "民族代码", "出生日期", "身份证号", "原考生号", "考生号", "师范生类别代码", "学籍变动代码", "院校名称", "院校代码", "院校隶属部门代码", "院校所在地代码", "学院", "系", "班级", "教学班", "专业名称", "专业代码", "专业方向", "政治面貌", "政治面貌代码", "健康状况", "是否曾转专业", "转系前专业", "宿舍楼号", "宿舍号", "班主任", "生源所在地省", "生源所在地级市", "生源所在地级市的区或县级市或县", "生源所在地", "生源所在地代码", "基本信息是否审核", "基本信息状态", "就业信息是否审核", "就业信息状态", "家庭户口所在地", "家庭户口所在地代码", "家庭户口类型", "独生子女标志", "困难生类别代码", "家庭困难级别", "档案是否转入学校", "入学前户口所在地派出所", "父亲姓名", "母亲姓名", "父亲工作单位", "母亲工作单位", "家庭详细通信住址", "家庭所在地邮编", "家庭电话", "个人手机", "QQ号码", "Email", "学历", "学历代码", "学制", "培养方式", "培养方式代码", "定向或委培单位", "入学年份", "入学时间", "毕业时间", "在校任职情况代码", "综合排名","排名方式","外语语种","英语通过级别","四级成绩","六级成绩","计算机级别","获奖1","获奖2","获奖3","在校期间其他荣誉及奖励","求职备注","毕业去向","协议书编号","单位名称","单位所属集团或系统","单位组织机构代码","单位上级隶属部门","单位行业","工作职务","开具单位名称","单位性质","联系人","联系人邮编","联系人通信地址","联系人职务","联系人电话","户口迁移地址","档案转寄详细地址","邮政编码","是否专业对口","升学院校","升学专业","出国国家" };
                     var workhood = new HSSFWorkbook();
                     var sheet = workhood.CreateSheet("基本信息表");
                     var col = sheet.CreateRow(0);
@@ -886,8 +887,8 @@ namespace Graduation.Controllers
                     int a = 1;
                     foreach (var item in s1.uploadPagedList)
                     {
-                        if (item.eSchoolInfoModel == null)
-                            item.eSchoolInfoModel = new ESchoolInfoModel();
+                        if (item.fillBaseInfoModel == null)
+                            item.fillBaseInfoModel = new FillBaseInfoModel();
                         var row = sheet.CreateRow(a);
                         row.CreateCell(0).SetCellValue(item.StudentNumber);
                         row.CreateCell(1).SetCellValue(item.Name);
@@ -904,8 +905,92 @@ namespace Graduation.Controllers
                         row.CreateCell(12).SetCellValue(item.School);
                         row.CreateCell(13).SetCellValue(item.SchoolCode);
                         row.CreateCell(14).SetCellValue(item.SchoolBeCode);
-
-
+                        row.CreateCell(15).SetCellValue(item.SchoolAddCode);
+                        row.CreateCell(16).SetCellValue(item.Academy);
+                        row.CreateCell(17).SetCellValue(item.Department);
+                        row.CreateCell(18).SetCellValue(item.Class);
+                        row.CreateCell(19).SetCellValue(item.TeachingClass);
+                        row.CreateCell(20).SetCellValue(item.Major);
+                        row.CreateCell(21).SetCellValue(item.MajorCode);
+                        row.CreateCell(22).SetCellValue(item.MajorDirection);
+                        row.CreateCell(23).SetCellValue(item.fillBaseInfoModel.PoliticalStatus);
+                        row.CreateCell(24).SetCellValue(item.fillBaseInfoModel.PoliticalStatusCode);
+                        row.CreateCell(25).SetCellValue(item.fillBaseInfoModel.Health);
+                        row.CreateCell(26).SetCellValue(item.fillBaseInfoModel.IsChangeMaj);
+                        row.CreateCell(27).SetCellValue(item.fillBaseInfoModel.BeforeMajor);                      
+                        row.CreateCell(28).SetCellValue(item.fillBaseInfoModel.Dormitory);
+                        row.CreateCell(29).SetCellValue(item.fillBaseInfoModel.RoomNumber);
+                        row.CreateCell(30).SetCellValue(item.fillBaseInfoModel.ClassTeacher);
+                        row.CreateCell(31).SetCellValue(item.fillBaseInfoModel.OriginProvince);
+                        row.CreateCell(32).SetCellValue(item.fillBaseInfoModel.OriginCity);
+                        row.CreateCell(33).SetCellValue(item.fillBaseInfoModel.OriginCounty);
+                        row.CreateCell(34).SetCellValue(item.fillBaseInfoModel.Origin);
+                        row.CreateCell(35).SetCellValue(item.fillBaseInfoModel.OriginCode);
+                        row.CreateCell(36).SetCellValue(item.fillBaseInfoModel.IsBaseChecked);
+                        row.CreateCell(37).SetCellValue(item.fillBaseInfoModel.IsClocked);
+                        row.CreateCell(38).SetCellValue(item.eSchoolInfoModel.IsChecked);
+                        row.CreateCell(39).SetCellValue(item.eSchoolInfoModel.IsClock);
+                        row.CreateCell(40).SetCellValue(item.fillBaseInfoModel.ResLocation);
+                        row.CreateCell(41).SetCellValue(item.fillBaseInfoModel.ResLocationCode);                     
+                        row.CreateCell(42).SetCellValue(item.fillBaseInfoModel.ResLocationType);
+                        row.CreateCell(43).SetCellValue(item.fillBaseInfoModel.IsOnlyChild);
+                        row.CreateCell(44).SetCellValue(item.fillBaseInfoModel.DiffLevelCode);
+                        row.CreateCell(45).SetCellValue(item.fillBaseInfoModel.FDiffLevel);
+                        row.CreateCell(46).SetCellValue(item.fillBaseInfoModel.IsArchivesToSch);
+                        row.CreateCell(47).SetCellValue(item.fillBaseInfoModel.PoliceBefore);
+                        row.CreateCell(48).SetCellValue(item.fillBaseInfoModel.FatherName);
+                        row.CreateCell(49).SetCellValue(item.fillBaseInfoModel.MotherName);
+                        row.CreateCell(50).SetCellValue(item.fillBaseInfoModel.FatherWorkUnit);
+                        row.CreateCell(51).SetCellValue(item.fillBaseInfoModel.MotherWorkUnit);
+                        row.CreateCell(52).SetCellValue(item.fillBaseInfoModel.FamilyLocation);
+                        row.CreateCell(53).SetCellValue(item.fillBaseInfoModel.FamilyZipCode);
+                        row.CreateCell(54).SetCellValue(item.fillBaseInfoModel.FamilyTel);
+                        row.CreateCell(55).SetCellValue(item.fillBaseInfoModel.TelNumber);
+                        row.CreateCell(56).SetCellValue(item.fillBaseInfoModel.QQ);
+                        row.CreateCell(57).SetCellValue(item.fillBaseInfoModel.Email);
+                        row.CreateCell(58).SetCellValue(item.Education);
+                        row.CreateCell(59).SetCellValue(item.EducationCode);
+                        row.CreateCell(60).SetCellValue(item.LengthOfSch);
+                        row.CreateCell(61).SetCellValue(item.TrainType);
+                        row.CreateCell(62).SetCellValue(item.TrainTypeCode);
+                        row.CreateCell(63).SetCellValue(item.Weituo);
+                        row.CreateCell(64).SetCellValue(item.EntranceYear);
+                        row.CreateCell(65).SetCellValue(item.EntranceTime);
+                        row.CreateCell(66).SetCellValue(item.GraduationTime);
+                        row.CreateCell(67).SetCellValue(item.applInfoModel.PostAtSch);//在校任职情况代码
+                        row.CreateCell(68).SetCellValue(item.applInfoModel.NM);
+                        row.CreateCell(69).SetCellValue(item.applInfoModel.Rank);
+                        //少一个英语语种
+                        row.CreateCell(70).SetCellValue(item.applInfoModel.EnglishLevel);
+                        row.CreateCell(71).SetCellValue(item.applInfoModel.LevelFour);
+                        row.CreateCell(72).SetCellValue(item.applInfoModel.LevelSix);
+                        row.CreateCell(73).SetCellValue(item.applInfoModel.ComputerLevel);
+                        row.CreateCell(74).SetCellValue(item.applInfoModel.FristYearPrize);
+                        row.CreateCell(75).SetCellValue(item.applInfoModel.SecondYearPrize);
+                        row.CreateCell(76).SetCellValue(item.applInfoModel.ThirdYearPrize);
+                        row.CreateCell(77).SetCellValue(item.applInfoModel.BriefPrize);
+                        row.CreateCell(78).SetCellValue(item.applInfoModel.ApplNote);
+                        //少毕业去向
+                        row.CreateCell(79).SetCellValue(item.eSchoolInfoModel.AgreementID);
+                        row.CreateCell(80).SetCellValue(item.eSchoolInfoModel.CompanyName);
+                        row.CreateCell(81).SetCellValue(item.eSchoolInfoModel.ComBelongGroup);
+                        row.CreateCell(82).SetCellValue(item.eSchoolInfoModel.ComBelongDep);
+                        row.CreateCell(83).SetCellValue(item.eSchoolInfoModel.ComIndustry);
+                        row.CreateCell(84).SetCellValue(item.eSchoolInfoModel.JobTitle);
+                        row.CreateCell(85).SetCellValue(item.eSchoolInfoModel.SCompanyName);
+                        row.CreateCell(86).SetCellValue(item.eSchoolInfoModel.ComType);
+                        row.CreateCell(87).SetCellValue(item.eSchoolInfoModel.Contacts);
+                        row.CreateCell(88).SetCellValue(item.eSchoolInfoModel.ContactsCode);
+                        row.CreateCell(89).SetCellValue(item.eSchoolInfoModel.ConCommAddress);
+                        row.CreateCell(90).SetCellValue(item.eSchoolInfoModel.ConPost);
+                        row.CreateCell(91).SetCellValue(item.eSchoolInfoModel.ConTel);
+                        row.CreateCell(92).SetCellValue(item.eSchoolInfoModel.ResChangedAdd);
+                        row.CreateCell(93).SetCellValue(item.eSchoolInfoModel.FileChangedAdd);
+                        row.CreateCell(94).SetCellValue(item.eSchoolInfoModel.FileZipCode);
+                        row.CreateCell(95).SetCellValue(item.eSchoolInfoModel.IsMajorFit);
+                        row.CreateCell(96).SetCellValue(item.eSchoolInfoModel.UPSchool);
+                        row.CreateCell(97).SetCellValue(item.eSchoolInfoModel.UpMajor);
+                        row.CreateCell(98).SetCellValue(item.eSchoolInfoModel.OutCountry);                     
                         a++;
 
                     }
@@ -914,8 +999,6 @@ namespace Graduation.Controllers
                     ms.Seek(a, SeekOrigin.Begin);
                     return File(ms, "application/vnd.ms-excel", "毕业生信息.xls");
                 }
-                #endregion
-
                 #endregion
 
                 //table表格中显示的内容
@@ -1028,9 +1111,103 @@ namespace Graduation.Controllers
                 return View(disPlay);
             }
             #endregion
+
+            #region 添加毕业生信息
+            if (action == "添加毕业生信息")
+            {
+                RedirectToAction("AddGradInfo");
+            }
+            #endregion
             return View();
+        }
+        #endregion
+        #region 添加毕业生信息
+        public ActionResult AddGradInfo()
+        {
+            #region 初始化数据
 
+            List<SelectListItem> Political = new List<SelectListItem> {
+                new SelectListItem{Text="共产党员",Value="01共产党员",Selected=false},
+                new SelectListItem{Text="中共预备党员",Value="02中共预备党员",Selected=false},
+                new SelectListItem{Text="共青团员",Value="03共青团员",Selected=false},
+                new SelectListItem{Text="民革会员",Value="04民革会员",Selected=false},
+                new SelectListItem{Text="民盟盟员",Value="05民盟盟员",Selected=false},
+                new SelectListItem{Text="民建会员",Value="06民建会员",Selected=false},
+                new SelectListItem{Text="民进会员",Value="07民进会员",Selected=false},
+                new SelectListItem{Text="农工党党员",Value="08农工党党员",Selected=false},
+                new SelectListItem{Text="致公党党员",Value="09致公党党员",Selected=false},
+                new SelectListItem{Text="九三学社社员",Value="10九三学社社员",Selected=false},
+                new SelectListItem{Text="台盟盟员",Value="11台盟盟员",Selected=false},
+                new SelectListItem{Text="无党派民主人士",Value="12无党派民主人士",Selected=false},
+                new SelectListItem{Text="群众",Value="13群众",Selected=true},
+            };
+            ViewBag.Political = Political;
 
+            
+            List<SelectListItem> dor = new List<SelectListItem> {
+                new SelectListItem{Text="学1舍",Value="学1舍",Selected=false},
+                new SelectListItem{Text="学2舍",Value="学2舍",Selected=false},
+                new SelectListItem{Text="学3舍",Value="学3舍",Selected=false},
+                new SelectListItem{Text="学4舍",Value="学4舍",Selected=false},
+                new SelectListItem{Text="学5舍",Value="学5舍",Selected=false},
+                new SelectListItem{Text="学6舍",Value="学6舍",Selected=false},
+                new SelectListItem{Text="学7舍",Value="学7舍",Selected=false},
+                new SelectListItem{Text="学8舍",Value="学8舍",Selected=false},
+                new SelectListItem{Text="学9舍",Value="学9舍",Selected=false},
+                new SelectListItem{Text="学10舍",Value="学10舍",Selected=false},
+                new SelectListItem{Text="学11舍",Value="学11舍",Selected=false},
+                new SelectListItem{Text="学12舍",Value="学12舍",Selected=false},
+                new SelectListItem{Text="学13舍",Value="学13舍",Selected=false},
+                new SelectListItem{Text="学14舍",Value="学14舍",Selected=false},
+                new SelectListItem{Text="学15舍",Value="学15舍",Selected=false},
+                new SelectListItem{Text="学16舍",Value="学16舍",Selected=false},
+                new SelectListItem{Text="学17舍",Value="学17舍",Selected=false},
+                new SelectListItem{Text="学18舍",Value="学18舍",Selected=false},
+                new SelectListItem{Text="研究生公寓",Value="研究生公寓",Selected=true},
+            };
+            ViewBag.dor = dor;
+
+            ///家庭户口类型
+            List<SelectListItem> type = new List<SelectListItem> {
+                new SelectListItem{Text="省会及直辖市",Value="1",Selected=false},
+                new SelectListItem{Text="地级市",Value="2",Selected=false},
+                new SelectListItem{Text="县或县级市",Value="3",Selected=false},
+                new SelectListItem{Text="乡镇村",Value="4",Selected=false}
+            };
+            ViewBag.type = type;
+
+            #endregion
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddGradInfo(UploadModel upLoadModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (db.UploadTb.Find(upLoadModel.StudentNumber) == null)
+                {
+                    upLoadModel.School = "华北电力大学(保定)";
+                    upLoadModel.SchoolCode = "10079";
+                    upLoadModel.SchoolBeCode = "360";
+                    upLoadModel.SchoolAddCode = "130600";
+                    upLoadModel.fillBaseInfoModel.StudentNumber = upLoadModel.StudentNumber;
+                    // var nation = upLoadModel.Nation;
+                    //upLoadModel.Nation = nation.Substring(2);
+                    //upLoadModel.NationCode = upLoadModel.Nation.Substring(0, 2);
+                    //var resLocation = upLoadModel.fillBaseInfoModel.ResLocationCode;
+                    //upLoadModel.fillBaseInfoModel.ResLocation =resLocation. Substring(2);
+                    //upLoadModel.fillBaseInfoModel.ResLocationCode = resLocation.Substring(0, 2);
+                    db.UploadTb.Add(upLoadModel);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    return Content("<script>alert('用户已存在');location.href='/Admin/AddGradInfo';</script>");
+                }
+               
+            }
+            return RedirectToAction("AddGradInfo");
         }
         #endregion
 
@@ -2388,7 +2565,7 @@ namespace Graduation.Controllers
                 if (type == 1)
                 {
                     AdminGradViewModel s1 = (AdminGradViewModel)Session["table"];
-                    string[] excelHead = { "xysbh", "xh", "是否签约", "dwmc", "单位上级隶属部门", "单位所在地","单位所在地城市代码","单位所在地地区代码", "联系人","联系电话","联系人邮编","联系人通信地址","单位性质代码","单位性质","档案转寄详细地址","档案转寄邮政","户口迁移地址","特殊地区","专业是否对口","备注","单位行业","单位组织机构代码","毕业去向","联系人职务","是否专业对口","单位所属集团或系统","《就业报到证》开具单位名称","升学专业","升学院校","出国国家","工作职务","工作职务代码","姓名","性别","院","系","专业代码","专业","班级"};
+                    string[] excelHead = { "xysbh", "xh", "是否签约", "dwmc", "dwlsbm", "dwszd","dwszddm","单位所在地地区代码", "dwlxr","lxrdh","联系人邮编","联系人通信地址","dwxzdm","dwxz","dazjdwdz","档案转寄邮政","户口迁移地址","特殊地区","专业是否对口","备注","单位行业","单位组织机构代码","毕业去向","联系人职务","是否专业对口","单位所属集团或系统","《就业报到证》开具单位名称","升学专业","升学院校","出国国家","工作职务","工作职务代码","姓名","性别","院","系","专业代码","专业","班级"};
                     var workbook = new HSSFWorkbook();
 
                     var sheet = workbook.CreateSheet("签约登记");

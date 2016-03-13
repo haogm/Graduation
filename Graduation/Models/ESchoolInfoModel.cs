@@ -10,6 +10,7 @@ namespace Graduation.Models
     public class ESchoolInfoModel
     {
 
+        
         /// <summary>
         /// 学号（唯一标识）
         /// </summary>

@@ -103,6 +103,7 @@ namespace Graduation.Controllers
                     student.baseInfo.StudentNumber = Session["number"].ToString();
                 }
                 student.baseInfo.PoliticalStatus = student.baseInfo.PoliticalStatusCode + student.baseInfo.PoliticalStatus;
+                ViewBag.locked = student.baseInfo.IsClocked;
                 return View(student);
             }
             else 
@@ -179,6 +180,7 @@ namespace Graduation.Controllers
                     student.applInfo = new ApplInfoModel();
                     student.applInfo.StudentNumber = Session["number"].ToString();
                 }
+                ViewBag.clocked = student.applInfo.IsClocked;
                 return View(student);
             }
             else

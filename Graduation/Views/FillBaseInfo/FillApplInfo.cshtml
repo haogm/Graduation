@@ -8,6 +8,11 @@ else
 {
     ViewBag.numberCount = "hidden";
 }
+@if (ViewBag.clocked == "1")
+{
+    ViewBag.clocked = "disabled";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -266,7 +271,7 @@ else
                         </tr>
                         <tr>
                             <td colspan="4">
-                                <input type="submit" value="提交" class="btn btn-warning">
+                                <input type="submit" value="提交" class="btn btn-warning" @ViewBag.clocked>
                             </td>
                         </tr>
                     </table>

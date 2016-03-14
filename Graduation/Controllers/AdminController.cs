@@ -59,11 +59,14 @@ namespace Graduation.Controllers
         }
         #endregion
 
+<<<<<<< HEAD
 
         public ActionResult test()
         { return View(); }
 
 
+=======
+>>>>>>> origin/master
         #region 重置密码
         //
         // GET: /Admin/
@@ -75,17 +78,29 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ;
+=======
+                // 显示的设置
+                ViewBag.type = Session["Type"];
+>>>>>>> origin/master
 
                 var temp = db.UploadTb.Find(studentNumber);
                 if (temp != null)
                 {
                     try
                     {
+<<<<<<< HEAD
                         temp.Pwd = temp.IDNumber.Substring(13);
                         db.Entry(temp).CurrentValues.SetValues(temp);
                         db.SaveChanges();
                         ViewBag.result = "修改成功，密码为身份证号后4位";
+=======
+                        temp.Pwd = "123";
+                        db.Entry(temp).CurrentValues.SetValues(temp);
+                        db.SaveChanges();
+                        ViewBag.result = "修改成功，密码为123";
+>>>>>>> origin/master
                     }
                     catch (Exception)
                     {
@@ -126,7 +141,10 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ViewBag.type = Session["Type"];
+=======
+>>>>>>> origin/master
                 ViewBag.NowTime = DateTime.Now;
                 //删除
                 if (type == 1)
@@ -382,6 +400,7 @@ namespace Graduation.Controllers
         /// <returns></returns>
         public ActionResult AdminAcademy(int id = 0, int type = 0)
         {
+<<<<<<< HEAD
             if (Session["Id"] != null)
             {
                 // 显示的设置
@@ -423,6 +442,41 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
             
+=======
+            //删除功能
+            if (type == 1)
+            {
+                var aca = db.AcademyTb.Find(id);
+                if (aca == null)
+                    return RedirectToAction("AdminAcademy");
+                db.AcademyTb.Remove(aca);
+                //删除院下面的系和专业
+                var dep = db.DepartmentTb.Where(model => model.BelongId == aca.Id);
+                if (dep != null)
+                {
+                    foreach (var item in dep)
+                    {
+                        db.DepartmentTb.Remove(item);
+                    }
+                }
+                //删除院下面的专业
+                string acaId = id.ToString();
+                var major = db.MajorTb.Where(m => m.AcademyId == acaId);
+                if (major != null)
+                {
+                    foreach (var item in major)
+                        db.MajorTb.Remove(item);
+                }
+                db.SaveChanges();
+                ViewBag.message = "删除成功";
+            }
+            var temp = new AcademyViewModel();
+            temp.Academy = new AcademyModel();
+            temp.AcademyList = db.AcademyTb.ToList();
+            if (id != 0)
+                temp.Academy = db.AcademyTb.Find(id);
+            return View(temp);
+>>>>>>> origin/master
         }
 
         /// <summary>
@@ -457,6 +511,7 @@ namespace Graduation.Controllers
         /// <returns></returns>
         public ActionResult AdminDepartmet(int id = 0, int type = 0)
         {
+<<<<<<< HEAD
             if (Session["Id"] != null)
             {
                 // 显示的设置
@@ -500,6 +555,43 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
             
+=======
+            //删除功能
+            if (type == 1)
+            {
+                var temp = db.DepartmentTb.Find(id);
+                if (temp == null)
+                    return RedirectToAction("AdminDepartmet");
+                db.DepartmentTb.Remove(temp);
+
+                ///删除系下面的专业
+                string acaId = id.ToString();
+                var major = db.MajorTb.Where(m => m.AcademyId == acaId);
+                if (major != null)
+                {
+                    foreach (var item in major)
+                        db.MajorTb.Remove(item);
+                }
+                db.SaveChanges();
+                ViewBag.OpenType = 1;
+            }
+            DepartmentViewModel dep = new DepartmentViewModel();
+            //院系列表
+            dep.departList = db.DepartmentTb.ToList();
+            List<SelectListItem> list = new List<SelectListItem>();
+            var aca = db.AcademyTb.ToList();
+            if (aca != null)
+            {
+                foreach (var item in aca)
+                {
+                    list.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                }
+            }
+            ViewBag.list = list;
+            if (id != 0)
+                dep.depart = db.DepartmentTb.Find(id);
+            return View(dep);
+>>>>>>> origin/master
         }
         /// <summary>
         /// 系名称管理
@@ -538,6 +630,7 @@ namespace Graduation.Controllers
         /// <returns></returns>
         public ActionResult AdminMajor(int id = 0, int type = 0)
         {
+<<<<<<< HEAD
             if (Session["Id"] != null)
             {
                 // 显示的设置
@@ -584,6 +677,46 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
             
+=======
+            //删除功能
+            if (type == 1)
+            {
+                var temp = db.MajorTb.Find(id);
+                if (temp == null)
+                    return RedirectToAction("AdminMajor");
+                db.MajorTb.Remove(temp);
+                db.SaveChanges();
+                ViewBag.OpenType = 1;
+            }
+            MajorViewModel major = new MajorViewModel();
+            //学院列表
+            List<SelectListItem> acaList = new List<SelectListItem>();
+            var aca = db.AcademyTb.ToList();
+            if (aca != null)
+            {
+                foreach (var item in aca)
+                {
+                    acaList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                }
+            }
+            ViewBag.aca = acaList;
+
+            //系列表
+            List<SelectListItem> depList = new List<SelectListItem>();
+            var dep = db.DepartmentTb.ToList();
+            if (dep != null)
+            {
+                foreach (var item in dep)
+                {
+                    depList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                }
+            }
+            ViewBag.dep = depList;
+
+            if (id != 0)
+                major.Major = db.MajorTb.Find(id);
+            return View(major);
+>>>>>>> origin/master
         }
         /// <summary>
         /// 专业名称管理
@@ -630,8 +763,11 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ViewBag.type = Session["Type"];
 
+=======
+>>>>>>> origin/master
                 #region 下载excel表格
                 if (type == 1)
                 {
@@ -687,7 +823,11 @@ namespace Graduation.Controllers
             }
             else
             {
+<<<<<<< HEAD
                 return RedirectToAction("Login");
+=======
+                return View("Login");
+>>>>>>> origin/master
             }
 
         }
@@ -772,6 +912,7 @@ namespace Graduation.Controllers
         #region 编辑签约登记表
         public ActionResult EditSign(string studentNumber)
         {
+<<<<<<< HEAD
 
             if (Session["Id"] != null)
             {
@@ -786,6 +927,18 @@ namespace Graduation.Controllers
 
                 //所属集团或系统
                 List<SelectListItem> Group = new List<SelectListItem> {
+=======
+            #region 下拉栏初始化
+            //签约方式
+            List<SelectListItem> signType = new List<SelectListItem> {
+                new SelectListItem{Text="校内",Value="校内",Selected=false},
+                new SelectListItem{Text="校外",Value="校外",Selected=true}
+            };
+            ViewBag.signType = signType;
+
+            //所属集团或系统
+            List<SelectListItem> Group = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="国网",Value="国网",Selected=true},
                 new SelectListItem{Text="南网",Value="南网",Selected=true},
                 new SelectListItem{Text="大唐集团",Value="大唐集团",Selected=false},
@@ -817,6 +970,7 @@ namespace Graduation.Controllers
                 new SelectListItem{Text="机械机电",Value="机械机电",Selected=false},
                 new SelectListItem{Text="其他",Value="其他",Selected=false},
             };
+<<<<<<< HEAD
                 ViewBag.Group = Group;
                 #endregion
 
@@ -836,6 +990,23 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
             
+=======
+            ViewBag.Group = Group;
+            #endregion
+
+            SignInfoViewModel student = new SignInfoViewModel()
+            {
+                signInfo = db.SingInfoTb.Find(studentNumber),
+                upload = db.UploadTb.Find(studentNumber)
+            };
+            if (student.signInfo == null)
+            {
+                student.signInfo = new SignInfoModel();
+                student.signInfo.StudentNumber = studentNumber.ToString();
+            }
+            student.signInfo.ComType = student.signInfo.ComTypeCode + student.signInfo.ComType;
+            return View(student);
+>>>>>>> origin/master
         }
 
         [HttpPost]
@@ -871,9 +1042,14 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ViewBag.type = Session["Type"];
 
                 var user = db.UserTb.Find(Session["Id"]);
+=======
+                var user = db.UserTb.Find(Session["Id"]);
+                var userDep = db.DepartmentTb.Find(user.DepartId);
+>>>>>>> origin/master
                 ViewBag.type = user.TypeCode;
                 #region 删除
                 if (type == 2)
@@ -886,6 +1062,7 @@ namespace Graduation.Controllers
                 }
                 #endregion
 
+<<<<<<< HEAD
                 if (Session["Type"].ToString() == "1")//如果为院系管理员登陆，则绑定好
                 {
                     ViewBag.style = "1";
@@ -956,6 +1133,34 @@ namespace Graduation.Controllers
                     #endregion
                 }
                 
+=======
+
+                #region 院系列表
+                //院列表
+                var aca = db.AcademyTb.ToList();
+                SelectList acaList = new SelectList(aca, "Id", "Name", userDep.BelongId);
+                ViewBag.aca = acaList;
+
+                //系列表
+                var dep = db.DepartmentTb.ToList();
+                SelectList depList = new SelectList(dep, "Id", "Name", userDep.Id);
+                ViewBag.dep = depList;
+
+                //专业列表
+                List<SelectListItem> majorList = new List<SelectListItem>();
+                var major = db.MajorTb.ToList();
+                if (major != null)
+                {
+                    foreach (var item in major)
+                    {
+                        majorList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                    }
+                }
+
+                ViewBag.major = majorList;
+                #endregion
+
+>>>>>>> origin/master
                 #region 下载表格
                 if (type == 3)
                 {
@@ -1115,6 +1320,7 @@ namespace Graduation.Controllers
         public ActionResult AdminGradList(BaseInfoListViewModel av, string action)
         {
             var user = db.UserTb.Find(Session["Id"]);
+<<<<<<< HEAD
             ViewBag.type = user.TypeCode;
             if (Session["Type"].ToString() == "1")//如果为院系管理员登陆，则绑定好
             {
@@ -1186,6 +1392,35 @@ namespace Graduation.Controllers
                 #endregion
             }
 
+=======
+            var userDep = db.DepartmentTb.Find(user.DepartId);
+            ViewBag.type = user.TypeCode;
+
+            #region 院系列表
+            //院列表
+            var aca = db.AcademyTb.ToList();
+            SelectList acaList = new SelectList(aca, "Id", "Name", userDep.BelongId);
+            ViewBag.aca = acaList;
+
+            //系列表
+            var dep = db.DepartmentTb.ToList();
+            SelectList depList = new SelectList(dep, "Id", "Name", userDep.Id);
+            ViewBag.dep = depList;
+
+            //专业列表
+            List<SelectListItem> majorList = new List<SelectListItem>();
+            var major = db.MajorTb.ToList();
+            if (major != null)
+            {
+                foreach (var item in major)
+                {
+                    majorList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                }
+            }
+
+            ViewBag.major = majorList;
+            #endregion
+>>>>>>> origin/master
             #region 查询
             if (action == "查询")
             {
@@ -1193,11 +1428,16 @@ namespace Graduation.Controllers
                 disPlay.uploadList = new List<FillBaseInfoViewModel>();
                 disPlay.upload = new UploadModel();
                 disPlay.upload = av.upload;
+<<<<<<< HEAD
                 List<UploadModel> upload;
                 if (Session["Type"].ToString() == "1")
                 { upload = db.UploadTb.Where(m => m.Department == user.DepartName).ToList(); }
                 else
                 { upload = db.UploadTb.ToList(); }
+=======
+
+                var upload = db.UploadTb.Where(m => m.Department == user.DepartName).ToList();
+>>>>>>> origin/master
                 if (av.upload.Name != null)//姓名
                     upload = upload.Where(m => m.Name.Contains(av.upload.Name)).ToList();
                 if (av.upload.StudentNumber != null)//学号
@@ -1206,6 +1446,7 @@ namespace Graduation.Controllers
                     upload = upload.Where(m => m.EntranceYear == av.upload.EntranceYear).ToList();
                 if (av.upload.GraduationTime != null)//毕业时间
                     upload = upload.Where(m => m.GraduationTime == av.upload.GraduationTime).ToList();
+<<<<<<< HEAD
                 if (av.upload.Academy != null)
                 {
                     int id = Convert.ToInt32(av.upload.Academy);
@@ -1220,6 +1461,8 @@ namespace Graduation.Controllers
                     upload = upload.Where(m => m.Department == depTemp.Name).ToList();
                     disPlay.upload.Department = depTemp.Id.ToString();
                 }
+=======
+>>>>>>> origin/master
                 if (av.upload.Major != null)//专业
                 {
                     int id = Convert.ToInt16(av.upload.Major);
@@ -1270,12 +1513,18 @@ namespace Graduation.Controllers
         #region 添加毕业生信息
         public ActionResult AddGradInfo()
         {
+<<<<<<< HEAD
             if (Session["Id"] != null)
             {
                 ViewBag.type = Session["Type"];
                 #region 初始化数据
 
                 List<SelectListItem> Political = new List<SelectListItem> {
+=======
+            #region 初始化数据
+
+            List<SelectListItem> Political = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="共产党员",Value="01共产党员",Selected=false},
                 new SelectListItem{Text="中共预备党员",Value="02中共预备党员",Selected=false},
                 new SelectListItem{Text="共青团员",Value="03共青团员",Selected=false},
@@ -1290,10 +1539,17 @@ namespace Graduation.Controllers
                 new SelectListItem{Text="无党派民主人士",Value="12无党派民主人士",Selected=false},
                 new SelectListItem{Text="群众",Value="13群众",Selected=true},
             };
+<<<<<<< HEAD
                 ViewBag.Political = Political;
 
 
                 List<SelectListItem> dor = new List<SelectListItem> {
+=======
+            ViewBag.Political = Political;
+
+            
+            List<SelectListItem> dor = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="学1舍",Value="学1舍",Selected=false},
                 new SelectListItem{Text="学2舍",Value="学2舍",Selected=false},
                 new SelectListItem{Text="学3舍",Value="学3舍",Selected=false},
@@ -1314,15 +1570,23 @@ namespace Graduation.Controllers
                 new SelectListItem{Text="学18舍",Value="学18舍",Selected=false},
                 new SelectListItem{Text="研究生公寓",Value="研究生公寓",Selected=true},
             };
+<<<<<<< HEAD
                 ViewBag.dor = dor;
 
                 ///家庭户口类型
                 List<SelectListItem> type = new List<SelectListItem> {
+=======
+            ViewBag.dor = dor;
+
+            ///家庭户口类型
+            List<SelectListItem> type = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="省会及直辖市",Value="1",Selected=false},
                 new SelectListItem{Text="地级市",Value="2",Selected=false},
                 new SelectListItem{Text="县或县级市",Value="3",Selected=false},
                 new SelectListItem{Text="乡镇村",Value="4",Selected=false}
             };
+<<<<<<< HEAD
                 ViewBag.type = type;
 
                 #endregion
@@ -1331,6 +1595,12 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
            
+=======
+            ViewBag.type = type;
+
+            #endregion
+            return View();
+>>>>>>> origin/master
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1367,12 +1637,18 @@ namespace Graduation.Controllers
         #region 编辑毕业生信息
         public ActionResult AdminEditGradInfo(string studentNumber)
         {
+<<<<<<< HEAD
             if (Session["Id"] != null)
             {
                 ViewBag.type = Session["Type"];
                 #region 下拉框数据
                 //政治面貌
                 List<SelectListItem> Political = new List<SelectListItem> {
+=======
+            #region 下拉框数据
+            //政治面貌
+            List<SelectListItem> Political = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="共产党员",Value="01共产党员",Selected=false},
                 new SelectListItem{Text="中共预备党员",Value="02中共预备党员",Selected=false},
                 new SelectListItem{Text="共青团员",Value="03共青团员",Selected=false},
@@ -1387,10 +1663,17 @@ namespace Graduation.Controllers
                 new SelectListItem{Text="无党派民主人士",Value="12无党派民主人士",Selected=false},
                 new SelectListItem{Text="群众",Value="13群众",Selected=true},
             };
+<<<<<<< HEAD
                 ViewBag.Political = Political;
 
                 //宿舍楼
                 List<SelectListItem> dor = new List<SelectListItem> {
+=======
+            ViewBag.Political = Political;
+
+            //宿舍楼
+            List<SelectListItem> dor = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="学1舍",Value="学1舍",Selected=false},
                 new SelectListItem{Text="学2舍",Value="学2舍",Selected=false},
                 new SelectListItem{Text="学3舍",Value="学3舍",Selected=false},
@@ -1411,15 +1694,23 @@ namespace Graduation.Controllers
                 new SelectListItem{Text="学18舍",Value="学18舍",Selected=false},
                 new SelectListItem{Text="研究生公寓",Value="研究生公寓",Selected=true},
             };
+<<<<<<< HEAD
                 ViewBag.dor = dor;
 
                 ///家庭户口类型
                 List<SelectListItem> type = new List<SelectListItem> {
+=======
+            ViewBag.dor = dor;
+
+            ///家庭户口类型
+            List<SelectListItem> type = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="省会及直辖市",Value="1",Selected=false},
                 new SelectListItem{Text="地级市",Value="2",Selected=false},
                 new SelectListItem{Text="县或县级市",Value="3",Selected=false},
                 new SelectListItem{Text="乡镇村",Value="4",Selected=false}
             };
+<<<<<<< HEAD
                 ViewBag.type = type;
                 #endregion
                 FillBaseInfoViewModel fillBaseInfoViewModel = new FillBaseInfoViewModel()
@@ -1439,6 +1730,23 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
             
+=======
+            ViewBag.type = type;
+            #endregion
+            FillBaseInfoViewModel fillBaseInfoViewModel = new FillBaseInfoViewModel()
+            {
+                baseInfo = db.BaseInfoTb.Find(studentNumber),
+                upload = db.UploadTb.Find(studentNumber)
+            };
+            if (fillBaseInfoViewModel.baseInfo == null)
+            {
+                fillBaseInfoViewModel.baseInfo = new FillBaseInfoModel();
+                fillBaseInfoViewModel.baseInfo.StudentNumber = studentNumber;
+            }
+            fillBaseInfoViewModel.baseInfo.PoliticalStatus = fillBaseInfoViewModel.baseInfo.PoliticalStatusCode + fillBaseInfoViewModel.baseInfo.PoliticalStatus;
+
+            return View(fillBaseInfoViewModel);
+>>>>>>> origin/master
 
         }
 
@@ -1477,6 +1785,7 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ViewBag.type = Session["Type"];
                 var user = db.UserTb.Find(Session["Id"]);
                 ViewBag.type = user.TypeCode;
@@ -1488,11 +1797,25 @@ namespace Graduation.Controllers
                     //院列表
                     var aca = db.AcademyTb.ToList();
                     SelectList acaList = new SelectList(aca, "Id", "Name", userDep.BelongId);
+=======
+                var user = db.UserTb.Find(Session["Id"]);
+                ViewBag.type = user.TypeCode;
+                if (user.DepartId == 0)
+                {
+                    #region 院系列表
+                    //院列表
+                    var aca = db.AcademyTb.ToList();
+                    SelectList acaList = new SelectList(aca, "Id", "Name");
+>>>>>>> origin/master
                     ViewBag.aca = acaList;
 
                     //系列表
                     var dep = db.DepartmentTb.ToList();
+<<<<<<< HEAD
                     SelectList depList = new SelectList(dep, "Id", "Name", userDep.Id);
+=======
+                    SelectList depList = new SelectList(dep, "Id", "Name");
+>>>>>>> origin/master
                     ViewBag.dep = depList;
 
                     //专业列表
@@ -1509,6 +1832,7 @@ namespace Graduation.Controllers
                     ViewBag.major = majorList;
                     #endregion
                 }
+<<<<<<< HEAD
                 else if (Session["Type"].ToString() == "2")//管理员登陆
                 {
                     ViewBag.style = "2";
@@ -1521,10 +1845,20 @@ namespace Graduation.Controllers
                         foreach (var item in aca)
                         { acaList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() }); }
                     }
+=======
+                else
+                {
+                    var userDep = db.DepartmentTb.Find(user.DepartId);
+                    #region 院系列表
+                    //院列表
+                    var aca = db.AcademyTb.ToList();
+                    SelectList acaList = new SelectList(aca, "Id", "Name", userDep.BelongId);
+>>>>>>> origin/master
                     ViewBag.aca = acaList;
 
                     //系列表
                     var dep = db.DepartmentTb.ToList();
+<<<<<<< HEAD
                     List<SelectListItem> depList = new List<SelectListItem>();
                     if (dep != null)
                     {
@@ -1533,6 +1867,9 @@ namespace Graduation.Controllers
                             depList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
                         }
                     }
+=======
+                    SelectList depList = new SelectList(dep, "Id", "Name", userDep.Id);
+>>>>>>> origin/master
                     ViewBag.dep = depList;
 
                     //专业列表
@@ -1576,6 +1913,7 @@ namespace Graduation.Controllers
         public ActionResult ApplExam(AppExamListViewModel av, int id = 0)
         {
             var user = db.UserTb.Find(Session["Id"]);
+<<<<<<< HEAD
             ViewBag.type = user.TypeCode;
             if (Session["Type"].ToString() == "1")//如果为院系管理员登陆，则绑定好
             {
@@ -1647,16 +1985,50 @@ namespace Graduation.Controllers
                 #endregion
             }
 
+=======
+            var userDep = db.DepartmentTb.Find(user.DepartId);
+            ViewBag.type = user.TypeCode;
+            #region 院系列表
+            //院列表
+            var aca = db.AcademyTb.ToList();
+            SelectList acaList = new SelectList(aca, "Id", "Name", userDep.BelongId);
+            ViewBag.aca = acaList;
+
+            //系列表
+            var dep = db.DepartmentTb.ToList();
+            SelectList depList = new SelectList(dep, "Id", "Name", userDep.Id);
+            ViewBag.dep = depList;
+
+            //专业列表
+            List<SelectListItem> majorList = new List<SelectListItem>();
+            var major = db.MajorTb.ToList();
+            if (major != null)
+            {
+                foreach (var item in major)
+                {
+                    majorList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                }
+            }
+
+            ViewBag.major = majorList;
+            #endregion
+
+>>>>>>> origin/master
             #region 查询
             AppExamListViewModel disPlay = new AppExamListViewModel();
             disPlay.appInfoList = new List<ApplInfoViewModel>();
             disPlay.upload = new UploadModel();
             disPlay.upload = av.upload;
             var upload = db.UploadTb.Include("applInfoModel").Where(m => m.Department == user.DepartName);
+<<<<<<< HEAD
             if (Session["Type"].ToString() == "1")
             { upload = db.UploadTb.Include("applInfoModel").Where(m => m.Department == user.DepartName); }
             else
             { upload = db.UploadTb.Include("applInfoModel"); }
+=======
+
+
+>>>>>>> origin/master
 
             if (av.upload.Name != null)//姓名
                 upload = upload.Where(m => m.Name.Contains(av.upload.Name));
@@ -1720,16 +2092,22 @@ namespace Graduation.Controllers
         #region 编辑求职信息
         public ActionResult EditApplExam(string studentNumber)
         {
+<<<<<<< HEAD
             if (Session["Id"] != null)
             {
                 ViewBag.type = Session["Type"];
                 #region 下拉栏的初始化
                 List<SelectListItem> list = new List<SelectListItem> {
+=======
+            #region 下拉栏的初始化
+            List<SelectListItem> list = new List<SelectListItem> {
+>>>>>>> origin/master
                 new SelectListItem{Text="学生干部",Value="1",Selected=false},
                 new SelectListItem{Text="学生助理",Value="2",Selected=false},
                 new SelectListItem{Text="社团干部",Value="3",Selected=false},
                 new SelectListItem{Text="无",Value="0",Selected=true}
             };
+<<<<<<< HEAD
                 ViewBag.list = list;
                 List<SelectListItem> english = new List<SelectListItem>{
                 new SelectListItem{Text="四级",Value="四级",Selected=true},
@@ -1763,6 +2141,40 @@ namespace Graduation.Controllers
             else
             { return RedirectToAction("Login"); }
             
+=======
+            ViewBag.list = list;
+            List<SelectListItem> english = new List<SelectListItem>{
+                new SelectListItem{Text="四级",Value="四级",Selected=true},
+                new SelectListItem{Text="六级",Value="六级",Selected=true},
+            };
+            ViewBag.english = english;
+            #endregion
+
+            var student = new ApplInfoViewModel()
+            {
+                applInfo = db.ApplInfoTb.Find(studentNumber),
+                upload = db.UploadTb.Find(studentNumber)
+            };
+            ViewBag.type = student.upload.StudentType;
+            ViewBag.numberCount = student.upload.StudentNumber.Length;
+            if (student.applInfo == null)
+            {
+                student.applInfo = new ApplInfoModel();
+                student.applInfo.StudentNumber = studentNumber;
+            }
+            var temp = db.BaseInfoTb.Find(studentNumber);
+            if (temp != null)
+            {
+                ViewBag.P = temp.PoliticalStatus;//政治面貌
+                ViewBag.H = temp.Health;//健康状况
+                ViewBag.CC = temp.CommCode;//邮政编码
+                ViewBag.CA = temp.CommAddress;//通信地址
+                ViewBag.F = temp.FamilyLocation;//现家庭居住地
+                ViewBag.E = temp.Email;//Email
+                ViewBag.T = temp.TelNumber;//手机号
+            }
+            return View(student);
+>>>>>>> origin/master
         }
 
         [HttpPost]
@@ -1810,7 +2222,10 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ViewBag.type = Session["Type"];
+=======
+>>>>>>> origin/master
                 var user = db.UserTb.Find(Session["Id"]);
                 var userDep = db.DepartmentTb.Find(user.DepartId);
                 ViewBag.type = user.TypeCode;
@@ -2765,7 +3180,10 @@ namespace Graduation.Controllers
         {
             if (Session["Id"] != null)
             {
+<<<<<<< HEAD
                 ViewBag.type = Session["Type"];
+=======
+>>>>>>> origin/master
                 var user = db.UserTb.Find(Session["Id"]);
                 var userDep = db.DepartmentTb.Find(user.DepartId);
                 ViewBag.type = user.TypeCode;
@@ -3040,11 +3458,14 @@ namespace Graduation.Controllers
             }
             return View();
         }
+<<<<<<< HEAD
 
         public ActionResult jiyeYX()
         {
             return View();
         }
+=======
+>>>>>>> origin/master
         #endregion
 
         #region 上传文件
@@ -3055,6 +3476,7 @@ namespace Graduation.Controllers
         /// <returns></returns>
         public ActionResult Upload(string type = null, string studentTyppe = null,string path=null)
       {
+<<<<<<< HEAD
           if (Session["Id"] != null)
           {
               ViewBag.type = Session["Type"];
@@ -3079,6 +3501,25 @@ namespace Graduation.Controllers
           else
           { return RedirectToAction("Login"); }
             
+=======
+            if (type == "1")
+            {
+                if (Session["FilePath"] == null)
+                {
+                    return View();
+                }
+                //往数据库添加数据
+                string filePath = Session["FilePath"].ToString();//文件的路径
+                ReadExcel(filePath);
+            }
+            if (path != null)
+            {
+                UploadViewModel model = new UploadViewModel();
+                ViewBag.messagge = "文件上传成功";
+                return View(model);
+            }
+            return View();
+>>>>>>> origin/master
         }
 
         [HttpPost]
@@ -3166,6 +3607,7 @@ namespace Graduation.Controllers
                 }
                 GraduationDBContent db1 = new GraduationDBContent();
                 UploadModel model = new UploadModel();
+<<<<<<< HEAD
                 ESchoolInfoModel eschool = new ESchoolInfoModel();
                 ESchoolInfoModel eschool1=new ESchoolInfoModel ();
                 FillBaseInfoModel baseInfo = new FillBaseInfoModel();
@@ -3174,16 +3616,24 @@ namespace Graduation.Controllers
                 string isNull="";//上传信息表中有没有
                 string isNull1 = "";//基本信息表中有没有
                 string isNull2 = "";//就业信息表中有没有
+=======
+                UploadModel student=new UploadModel ();
+                string isNull="";
+>>>>>>> origin/master
                 for (int i = 0; i < header.ItemArray.Length; i++)
                 {
                     string number="";
                     if(header.ItemArray[i].ToString()=="xh")
                     {
                         number = dr.ItemArray[i].ToString();
+<<<<<<< HEAD
                         student = db1.UploadTb.Find(number);
                         baseInfo1 = db1.BaseInfoTb.Find(number);
                         eschool1 = db1.ESchoolInfoTb.Find(number);
                         #region 判断是否在表中已经存在
+=======
+                        student = db1.UploadTb.Where(m => m.StudentNumber == number).SingleOrDefault();
+>>>>>>> origin/master
                         if (student == null)
                         {
                             model = new UploadModel();
@@ -3194,6 +3644,7 @@ namespace Graduation.Controllers
                             model = student;
                             isNull = "NotNull";
                         }
+<<<<<<< HEAD
                         if (baseInfo1 == null)
                         {
                             baseInfo = new FillBaseInfoModel();
@@ -3215,6 +3666,8 @@ namespace Graduation.Controllers
                             isNull2 = "NotNull";
                         }
                         #endregion 
+=======
+>>>>>>> origin/master
                     }
 
                 }
@@ -3244,8 +3697,11 @@ namespace Graduation.Controllers
                             break;
                         case "xh"://学号
                             model.StudentNumber = data;
+<<<<<<< HEAD
                             eschool.StudentNumber = data;
                             baseInfo.StudentNumber = data;
+=======
+>>>>>>> origin/master
                             break;
                         case "xm"://姓名
                             model.Name = data;
@@ -3277,10 +3733,16 @@ namespace Graduation.Controllers
                             model.MajorDirection = data;
                             break;
                         case "sfzyxw"://是否专业学位
+<<<<<<< HEAD
                             model.Sfzyxw = data;
                             break;
                         case "syszdgkkq"://生源地所在地（高考生源地）只有省份
                             baseInfo.OriginProvince = data;//在基本信息表中
+=======
+
+                            break;
+                        case "syszdgkkq"://生源地所在地（高考生源地）
+>>>>>>> origin/master
                             break;
                         case "xl"://学历
                             model.Education = data;
@@ -3322,7 +3784,10 @@ namespace Graduation.Controllers
                             model.GraduationTime = data;
                             break;
                         case "xysbh"://协议书编号
+<<<<<<< HEAD
                             eschool.AgreementID = data;
+=======
+>>>>>>> origin/master
                             break;
                     }
                     #endregion
@@ -3333,6 +3798,7 @@ namespace Graduation.Controllers
                 model.SchoolBeCode = "360";
                 model.SchoolAddCode = "130600";
                 model.SFstudentCode = "2";
+<<<<<<< HEAD
 
                 #region 用于判断为更新还是为上传，上传的是哪个表
                     if (isNull == "null")//为空则为添加,修改的为上传表
@@ -3374,6 +3840,18 @@ namespace Graduation.Controllers
                     }
                 #endregion 
 
+=======
+                if (isNull == "null")//为空则为添加
+                {
+                    db1.UploadTb.Add(model);
+                    db1.SaveChanges();
+                }
+                else
+                {
+                    db1.Entry(student).CurrentValues.SetValues(student);
+                    db1.SaveChanges();
+                }
+>>>>>>> origin/master
                 #endregion
             }
             #endregion
@@ -3573,4 +4051,8 @@ namespace Graduation.Controllers
             base.Dispose(disposing);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

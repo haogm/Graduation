@@ -1,5 +1,13 @@
 ﻿@model Graduation.Models.FillBaseInfoViewModel
 
+<<<<<<< HEAD
+=======
+@if (ViewBag.locked == "1")
+{
+    ViewBag.locked = "disabled";
+}
+
+>>>>>>> origin/master
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,6 +163,19 @@
                                 </td>
                                 <td></td>
                             </tr>
+<<<<<<< HEAD
+=======
+
+
+                            <tr>
+                                
+                                <td><span>研究生导师：</span>@Html.TextBoxFor(model => model.baseInfo.Tutor)</td>
+                                <td><span>是否专业学位：</span>@Html.RadioButtonFor(model=>model.baseInfo.IsMajorDegrees,"是")是
+                                @Html.RadioButtonFor(model=>model.baseInfo.IsMajorDegrees,"否")否</td>
+                            </tr>
+
+
+>>>>>>> origin/master
                             <tr>
                                 <td>
                                     <span>婚否：</span>
@@ -272,7 +293,11 @@
                                 </td>
                             </tr>
                             <tr>
+<<<<<<< HEAD
                                 <td colspan="4"><input class="btn btn-info" type="submit" value="提交" /></td>
+=======
+                                <td colspan="4"><input class="btn btn-info" type="submit" value="提交" @ViewBag.locked  /></td>
+>>>>>>> origin/master
                             </tr>
                         </table>
                     }
@@ -281,8 +306,13 @@
                         <tr>
                             <td colspan="4">
                                 <span>是否通过审核：</span>
+<<<<<<< HEAD
                                 @Html.RadioButtonFor(model => model.baseInfo.IsBaseChecked, "1") 是
                                 @Html.RadioButtonFor(model => model.baseInfo.IsBaseChecked, "0", new { @checked = true }) 否
+=======
+                                @Html.RadioButtonFor(model => model.baseInfo.IsBaseChecked, "1", new { @checked=true, disabled=true}) 是
+                                @Html.RadioButtonFor(model => model.baseInfo.IsBaseChecked, "0", new { @checked = true ,disabled=true}) 否
+>>>>>>> origin/master
                             </td>
                         </tr>
                     </table>

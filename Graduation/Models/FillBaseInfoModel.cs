@@ -39,6 +39,19 @@ namespace Graduation.Models
         public string ClassTeacher { get; set; }
 
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// 研究生导师
+        /// </summary>
+        public string Tutor { get; set; }
+
+        /// <summary>
+        /// 是否专业学位
+        /// </summary>
+        public string IsMajorDegrees { get; set; }
+
+        /// <summary>
+>>>>>>> origin/master
         /// 手机号
         /// </summary>
 
@@ -74,6 +87,10 @@ namespace Graduation.Models
 
         public string IsResidenceToSch { get; set; }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
         /// <summary>
         /// 婚否
         /// </summary>
@@ -293,6 +310,10 @@ namespace Graduation.Models
         public DateTime? CheckTime { get; set; }
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
         /// <summary>
         /// 连接上传信息
         /// </summary>

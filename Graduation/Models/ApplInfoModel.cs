@@ -66,6 +66,22 @@ namespace Graduation.Models
         public string BriefPrize { get; set; }
 
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// 竞赛获奖
+        /// </summary>
+        public string CompetitionPrize { get; set; }
+        /// <summary>
+        /// 其他获奖情况
+        /// </summary>
+        public string OtherPrize { get; set; }
+        /// <summary>
+        /// 发表论文和学术成果
+        /// </summary>
+        public string PublishPaper { get; set; }
+
+        /// <summary>
+>>>>>>> origin/master
         /// 英语通过级别
         /// </summary>
         public string EnglishLevel { get; set; }
@@ -81,7 +97,11 @@ namespace Graduation.Models
         public string LevelSix { get; set; }
 
         /// <summary>
+<<<<<<< HEAD
         /// 计算机级别
+=======
+        /// 计算机级别或水平
+>>>>>>> origin/master
         /// </summary>
         public string ComputerLevel { get; set; }
 
@@ -91,6 +111,39 @@ namespace Graduation.Models
         public string ApplNote { get; set; }
 
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// 语言考试分数
+        /// </summary>
+        public string LanguageScore { get; set; }
+
+        /// <summary>
+        /// 特长能力
+        /// </summary>
+        public string SpecialtyAbilty { get; set; }
+
+        /// <summary>
+        /// 社会工作
+        /// </summary>
+        public string SocietyJob { get; set; }
+
+        /// <summary>
+        /// 实践活动
+        /// </summary>
+        public string PracticeActivity { get; set; }
+
+        /// <summary>
+        /// 院系意见
+        /// </summary>
+        public string AcademicOpinion { get; set; }
+
+        /// <summary>
+        /// 导师意见
+        /// </summary>
+        public string TutorOpinion { get; set; }
+
+        /// <summary>
+>>>>>>> origin/master
         /// 业务素质
         /// </summary>
         public string StudyTest { get; set; }

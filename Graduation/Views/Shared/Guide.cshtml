@@ -71,7 +71,7 @@
                         </ul>
                     </li>
                     <li style=@ViewBag.type>
-                        <a href="#" class="active">
+                        <a href="#">
                             <i class="fa fa-users fa-fw"></i>
                             生源库导入导出
                             <i class="fa fa-angle-down fa-fw right"></i>
@@ -87,7 +87,7 @@
                             毕业生
                             <i class="fa fa-angle-down fa-fw right"></i>
                         </a>
-                        <ul class="ly-ul">
+                        <ul class="ly-ul" style="display:none">
                             <li><a href="/Admin/Sign">签约登记表</a></li>
                         </ul>
                     </li>
@@ -100,10 +100,11 @@
                         <ul class="ly-ul" style="display:none">
                             @if (@ViewBag.type == "display:none")
                             {
-                            <li><a href="/Admin/jiyeYX">就业统计</a></li>}
+                                <li><a href="/Admin/jiyeYX">就业统计</a></li>}
                             else
                             {
-                            <li><a href="/Admin/jiuyetongji">就业统计</a></li>}
+                                <li><a href="/Admin/jiuyetongji">就业统计</a></li>
+                            }
                         </ul>
                     </li>
                     <li>
